@@ -298,6 +298,11 @@ class TestRequest(unittest.TestCase):
         request.body = b'{'
         self.assertRaises(ValueError, getattr, request, 'json_body')
         
+    def test_json_body_invalid_json_is_a_string(self):
+        request = self._makeOne({'REQUEST_METHOD':'POST'})
+        request.body = b'only a string'
+        self.assertRaises(ValueError, getattr, request, 'json_body')
+        
     def test_json_body_valid_json(self):
         request = self._makeOne({'REQUEST_METHOD':'POST'})
         request.body = b'{"a":1}'
